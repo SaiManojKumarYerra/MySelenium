@@ -20,10 +20,13 @@ public class TaskModuleMethods extends DriverScript implements ObjectLocators{
 		String custmrName = null;
 		try
 		{
+				appInd.waitForElement(oDriver, objAddNew, "clickable", "", 10);
 				strStatus+= appInd.clickObject(oDriver, objAddNew, test);
-				Thread.sleep(2000);
+				
+				appInd.waitForElement(oDriver, objAddNewCustmr, "clickable", "", 10);
 				strStatus+= appInd.clickObject(oDriver, objAddNewCustmr, test);
-				Thread.sleep(2000);
+				
+				appInd.waitForElement(oDriver, objCreateCustmrTitle, "Text", "Create New Customer", 10);
 				if(appInd.verifyText(oDriver, objCreateCustmrTitle, "Text", "Create New Customer", test)) {
 					reports.writeResult(oDriver, "Pass", "Create User Box is opened sucessfully", test);
 					
@@ -31,7 +34,8 @@ public class TaskModuleMethods extends DriverScript implements ObjectLocators{
 					strStatus+= appInd.clickObject(oDriver, objcreateCustmrBtn, test);
 					
 					custmrName = data.get("NEW_CN");
-					Thread.sleep(3000);
+					
+					appInd.waitForElement(oDriver, By.xpath("//div[text()="+"'"+custmrName+"'"+"]"), "visible", "", 10);
 					strStatus+= appInd.verifyElementExist(oDriver, By.xpath("//div[text()="+"'"+custmrName+"'"+"]"), test);
 					
 					if(strStatus.contains("false")){
@@ -70,21 +74,25 @@ public class TaskModuleMethods extends DriverScript implements ObjectLocators{
 			if(appInd.verifyOptionalElementExist(oDriver, objAllCustNamesN, test)) {
 			strStatus+= appInd.clickObject(oDriver, objAllCustNamesN, test);
 			}
-			Thread.sleep(1000);
+			appInd.waitForElement(oDriver, objAddNew, "clickable", "", 10);
 			strStatus+= appInd.clickObject(oDriver, objAddNew, test);
-			Thread.sleep(1000);
-			strStatus+= appInd.clickObject(oDriver, objAddNewProject, test);
-			Thread.sleep(3000);
 			
+			appInd.waitForElement(oDriver, objAddNewProject, "clickable", "", 10);
+			strStatus+= appInd.clickObject(oDriver, objAddNewProject, test);
+			
+			appInd.waitForElement(oDriver, objCreateNewProject, "Text", "Create New Project", 10);
 			if(appInd.verifyText(oDriver, objCreateNewProject, "Text", "Create New Project", test)) {
 				reports.writeResult(oDriver, "Pass", "Create New Project Box opened successfully", test);	
 				strStatus+= appInd.setObject(oDriver, objEnterProjectName, data.get("NEW_P"), test);
-				Thread.sleep(3000);
+				
+				appInd.waitForElement(oDriver, objCustmrList_Click, "clickable", "", 10);
 				strStatus+= appInd.clickObject(oDriver, objCustmrList_Click, test);
-				Thread.sleep(3000);
+				
+				
 				if(CustName.isEmpty()) {
 					strStatus+= appInd.clickObjectInTable(oDriver, By.xpath("//ul[@class='x-menu-list']//li/descendant::a"), data1.get("OLD_CN"), test);
-					Thread.sleep(3000);
+					
+					appInd.waitForElement(oDriver, By.xpath("//button[@class='x-btn-text'][text()="+"'"+data1.get("OLD_CN")+"'"+"]"), "visible", "", 10);
 					if(appInd.verifyElementExist(oDriver, By.xpath("//button[@class='x-btn-text'][text()="+"'"+data1.get("OLD_CN")+"'"+"]"), test)) {
 						reports.writeResult(oDriver, "Pass", "The element '"+data1.get("OLD_CN")+"' is selected successfully", test);
 						strStatus+= appInd.clickObject(oDriver, objCreateProjectBtn, test);
@@ -95,7 +103,8 @@ public class TaskModuleMethods extends DriverScript implements ObjectLocators{
 					}
 				}else {
 					strStatus+= appInd.clickObjectInTable(oDriver, By.xpath("//ul[@class='x-menu-list']//li/descendant::a"), CustName, test);
-					Thread.sleep(3000);
+					
+					appInd.waitForElement(oDriver, By.xpath("//button[@class='x-btn-text'][text()="+"'"+CustName+"'"+"]"), "visible", "", 10);
 					if(appInd.verifyText(oDriver, By.xpath("//button[@class='x-btn-text'][text()="+"'"+CustName+"'"+"]"), "Text", CustName, test)) {
 						reports.writeResult(oDriver, "Pass", "The element '"+CustName+"' is selected successfully", test);
 						strStatus+= appInd.clickObject(oDriver, objCreateProjectBtn, test);
@@ -106,7 +115,7 @@ public class TaskModuleMethods extends DriverScript implements ObjectLocators{
 					}
 				}	
 				
-				Thread.sleep(3000);
+				appInd.waitForElement(oDriver, By.xpath("//div[@class='title ellipsis' and text()="+"'"+projectName+"'"+"]"), "visible", "", 10);
 				strStatus+= appInd.verifyElementExist(oDriver, By.xpath("//div[@class='title ellipsis' and text()="+"'"+projectName+"'"+"]"), test);
 					
 				if(strStatus.contains("false")){
@@ -138,8 +147,11 @@ public class TaskModuleMethods extends DriverScript implements ObjectLocators{
 	
 	public boolean Open_Task_Menu(WebDriver oDriver, ExtentTest test) {
 		try {
-			appInd.clickObject(oDriver, objTaskMenu, test);
-			Thread.sleep(2000);
+			
+			appInd.waitForElement(oDriver, objTaskMenu, "clickable", "", 20);
+			appInd.jsClickObject(oDriver, objTaskMenu, test);
+			appInd.waitForElement(oDriver, objTaskMenuPageTitle, "Text", "Tasks of", 10);
+			
 			if(appInd.verifyText(oDriver, objTaskMenuPageTitle, "Text", "Tasks of", test)) {
 				reports.writeResult(oDriver, "Pass", "Task Menu page opened successfully", test);
 				return true;
@@ -164,16 +176,16 @@ public class TaskModuleMethods extends DriverScript implements ObjectLocators{
 		try
 		{
 			oDriver.navigate().refresh();
-			Thread.sleep(3000);
+			appInd.waitForElement(oDriver, objAllCustmrsRefresh, "visible", "", 30);
 			if(strValue.isEmpty()) {
 				strStatus+= appInd.clickObject(oDriver, By.xpath("//div[@class='title' and contains(text(), "+"'"+data.get("DLT_C")+"'"+")]/following-sibling::div"), test);
-				Thread.sleep(3000);
-				strStatus+= appInd.clickObject(oDriver, objC_ActionsBtn, test);
-				Thread.sleep(1000);
+				appInd.waitForElement(oDriver, objC_ActionsBtn, "clickable", "", 10);
+				strStatus+= appInd.jsClickObject(oDriver, objC_ActionsBtn, test);
+				appInd.waitForElement(oDriver, objC_DeleteBtn, "clickable", "", 10);
 				strStatus+= appInd.clickObject(oDriver, objC_DeleteBtn, test);
-				Thread.sleep(1000);
-				strStatus+= appInd.clickObject(oDriver, objC_PermntDltBtn, test);
-				Thread.sleep(5000);
+				appInd.waitForElement(oDriver, objC_PermntDltBtn, "clickable", "", 10);
+				strStatus+= appInd.jsClickObject(oDriver, objC_PermntDltBtn, test);
+				appInd.waitForElement(oDriver, By.xpath("//div[@class='itemsContainer']/div//div[contains(text(),"+"'"+data.get("DLT_C")+"'"+")]"), "invisible", "", 10);
 				if(appInd.verifyOptionalElementExist(oDriver, By.xpath("//div[@class='itemsContainer']/div//div[contains(text(),"+"'"+data.get("DLT_C")+"'"+")]"), test)) {
 					strStatus+= false;
 				}else {
@@ -181,13 +193,13 @@ public class TaskModuleMethods extends DriverScript implements ObjectLocators{
 				}
 			}else {
 				strStatus+= appInd.clickObject(oDriver, By.xpath("//div[@class='title' and contains(text(), "+"'"+strValue+"'"+")]/following-sibling::div"), test);
-				Thread.sleep(3000);
-				strStatus+= appInd.clickObject(oDriver, objC_ActionsBtn, test);
-				Thread.sleep(1000);
+				appInd.waitForElement(oDriver, objC_ActionsBtn, "visible", "", 10);
+				strStatus+= appInd.jsClickObject(oDriver, objC_ActionsBtn, test);
+				appInd.waitForElement(oDriver, objC_DeleteBtn, "visible", "", 10);
 				strStatus+= appInd.clickObject(oDriver, objC_DeleteBtn, test);
-				Thread.sleep(1000);
-				strStatus+= appInd.clickObject(oDriver, objC_PermntDltBtn, test);
-				Thread.sleep(5000);
+				appInd.waitForElement(oDriver, objC_PermntDltBtn, "visible", "", 10);
+				strStatus+= appInd.jsClickObject(oDriver, objC_PermntDltBtn, test);
+				appInd.waitForElement(oDriver, By.xpath("//div[@class='itemsContainer']/div//div[contains(text(),"+"'"+strValue+"'"+")]"), "invisible", "", 10);
 				if(appInd.verifyOptionalElementExist(oDriver, By.xpath("//div[@class='itemsContainer']/div//div[contains(text(),"+"'"+strValue+"'"+")]"), test)) {
 					strStatus+= false;
 				}else {
@@ -225,20 +237,21 @@ public class TaskModuleMethods extends DriverScript implements ObjectLocators{
 			if((appInd.verifyOptionalElementExist(oDriver, objOptionalExpandBtn, test))) {
 				strStatus+= appInd.clickObject(oDriver, objP_ExpandBtn, test);
 			}
-			Thread.sleep(1000);
+			
 			oDriver.navigate().refresh();
-			Thread.sleep(2000);
+			appInd.waitForElement(oDriver, objAllCustmrsRefresh, "visible", "", 30);
 			
 			if(strValue.isEmpty()) {
 				
 			strStatus+= appInd.clickObject(oDriver, By.xpath("//div[@class='node projectNode notSelected']/div[contains(text(),"+"'"+data.get("DLT_P")+"'"+")]/following-sibling::div"), test);
-			Thread.sleep(3000);
-			strStatus+= appInd.clickObject(oDriver, objP_ActionsBtn, test);
-			Thread.sleep(1000);
+			appInd.waitForElement(oDriver, objP_ActionsBtn, "clickable", "", 10);
+			strStatus+= appInd.jsClickObject(oDriver, objP_ActionsBtn, test);
+			appInd.waitForElement(oDriver, objP_DeleteBtn, "clickable", "", 10);
 			strStatus+= appInd.clickObject(oDriver, objP_DeleteBtn, test);
-			Thread.sleep(1000);
+			appInd.waitForElement(oDriver, objP_PermntDltBtn, "clickable", "", 10);
 			strStatus+= appInd.clickObject(oDriver, objP_PermntDltBtn, test);
-			Thread.sleep(5000);
+			
+			appInd.waitForElement(oDriver, By.xpath("//div[@class='node customerNode notSelected']//following-sibling::div//div[contains(text(),"+"'"+data.get("DLT_P")+"'"+")]"), "invisible", "", 10);
 			if(appInd.verifyOptionalElementExist(oDriver, By.xpath("//div[@class='node customerNode notSelected']//following-sibling::div//div[contains(text(),"+"'"+data.get("DLT_P")+"'"+")]"), test)) {
 				strStatus+= false;
 			}else {
@@ -246,13 +259,14 @@ public class TaskModuleMethods extends DriverScript implements ObjectLocators{
 			}
 			}else {
 				strStatus+= appInd.clickObject(oDriver, By.xpath("//div[@class='node projectNode notSelected']/div[contains(text(),"+"'"+strValue+"'"+")]/following-sibling::div"), test);
-				Thread.sleep(3000);
-				strStatus+= appInd.clickObject(oDriver, objP_ActionsBtn, test);
-				Thread.sleep(1000);
+				appInd.waitForElement(oDriver, objP_ActionsBtn, "clickable", "", 10);
+				strStatus+= appInd.jsClickObject(oDriver, objP_ActionsBtn, test);
+				appInd.waitForElement(oDriver, objP_DeleteBtn, "clickable", "", 10);
 				strStatus+= appInd.clickObject(oDriver, objP_DeleteBtn, test);
-				Thread.sleep(1000);
+				appInd.waitForElement(oDriver, objP_PermntDltBtn, "clickable", "", 10);
 				strStatus+= appInd.clickObject(oDriver, objP_PermntDltBtn, test);
-				Thread.sleep(5000);
+
+				appInd.waitForElement(oDriver, By.xpath("//div[@class='node customerNode notSelected']//following-sibling::div//div[contains(text(),"+"'"+strValue+"'"+")]"), "invisible", "", 10);
 				if(appInd.verifyOptionalElementExist(oDriver, By.xpath("//div[@class='node customerNode notSelected']//following-sibling::div//div[contains(text(),"+"'"+strValue+"'"+")]"), test)) {
 					strStatus+= false;
 				}else {
@@ -287,21 +301,23 @@ public class TaskModuleMethods extends DriverScript implements ObjectLocators{
 				strStatus+= appInd.clickObject(oDriver, objP_ExpandBtn, test);
 			}
 			strStatus+= appInd.clickObject(oDriver, By.xpath("//div[contains(text(),"+"'"+data.get("FROM_CN")+"'"+")]/parent::div[@class='node customerNode notSelected']/following-sibling::div[@class='node projectNode notSelected']/div[contains(text(),"+"'"+data.get("MOVE_P")+"'"+")]/following-sibling::div"), test);
-			Thread.sleep(3000);
-			strStatus+= appInd.clickObject(oDriver, objP_ActionsBtn, test);
-			Thread.sleep(2000);
+			appInd.waitForElement(oDriver, objP_ActionsBtn, "visible", "", 10);
+			strStatus+= appInd.jsClickObject(oDriver, objP_ActionsBtn, test);
+			appInd.waitForElement(oDriver, objP_MoveBtn, "visible", "", 10);
 			strStatus+= appInd.clickObject(oDriver, objP_MoveBtn, test);
-			Thread.sleep(2000);
+			
+			appInd.waitForElement(oDriver, objP_MoveToTitle, "text", "Move project to another customer:", 10);
 			if(appInd.verifyElementExist(oDriver, objP_MoveToTitle, test)) {
 				reports.writeResult(oDriver, "Pass", "MoveTo Dialogue Box opened successfully", test);
 				strStatus+= appInd.clickObject(oDriver, objP_MoveToDropDown, test);
-				Thread.sleep(1000);
-				strStatus+= appInd.clickObject(oDriver, By.xpath("//div[@class='dropdownContainer simpleListMenu']/div/div/div[@class='itemsContainer']/div[text()="+"'"+data.get("TO_CN")+"'"+"]"), test);
-				Thread.sleep(1000);
+				
+				strStatus+= appInd.jsClickObject(oDriver, By.xpath("//div[@class='dropdownContainer simpleListMenu']/div/div/div[@class='itemsContainer']/div[text()="+"'"+data.get("TO_CN")+"'"+"]"), test);
+				
 				if(appInd.verifyText(oDriver, By.xpath("//div[@class='simpleListMenuButton emptyList notEmpty']/div[contains(text(),"+"'"+data.get("TO_CN")+"'"+")]"), "Text", data.get("TO_CN"), test)) {
 					reports.writeResult(oDriver, "Pass", "Customer : "+"'"+data.get("TO_CN")+"'"+"is selected successfully", test);
 					strStatus+= appInd.clickObject(oDriver, objP_finalMoveBtn, test);
-					Thread.sleep(10000);
+					
+					appInd.waitForElement(oDriver, By.xpath("//div[contains(text(),"+"'"+data.get("TO_CN")+"'"+")]/parent::div[@class='node customerNode notSelected']/following-sibling::div/div[contains(text(),"+"'"+data.get("MOVE_P")+"'"+")]"), "visible", "", 5);
 					if(appInd.verifyElementExist(oDriver, By.xpath("//div[contains(text(),"+"'"+data.get("TO_CN")+"'"+")]/parent::div[@class='node customerNode notSelected']/following-sibling::div/div[contains(text(),"+"'"+data.get("MOVE_P")+"'"+")]"), test)) {
 						strStatus+= true;
 					}else {
@@ -315,6 +331,7 @@ public class TaskModuleMethods extends DriverScript implements ObjectLocators{
 				reports.writeResult(oDriver, "Fail", "Failed to open MoveTo Dialogue Box", test);
 				strStatus+= false;
 			}
+			
 			
 			if(strStatus.contains("false")){
 				reports.writeResult(oDriver, "Fail", "Failed to Move Project", test);
