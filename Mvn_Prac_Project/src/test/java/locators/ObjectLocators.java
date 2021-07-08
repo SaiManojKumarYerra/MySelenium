@@ -21,7 +21,7 @@ public interface ObjectLocators {
 	final String objLogoutBtn = "//a[@id='logoutLink']";
 	final String objLoginHeader = "//td[@id='headerContainer']";
 	
-	final String objTaskMenu = "//a[@class ='content tasks']";
+	final String objTaskMenu = "//a[@class='content tasks']";
 	final String objTaskMenuPageTitle = "//div[@class='navigationLinks']"; //validation
 	final String objAddNew = "//div[text() ='Add New']";
 	final String objAddNewCustmr = "//div[text() ='+ New Customer']";
@@ -36,19 +36,22 @@ public interface ObjectLocators {
 	final String objCustmrList_Click = "//button[contains(text(),'-- Please Select Customer to Add Project for  --')]";
 	final String objCreateProjectBtn ="//div[@id='projectPopup_commitBtn']";
 	
-	final String objC_ActionsBtn = "//div[@class='customerNamePlaceHolder']/following-sibling::div";
+	final String objAllCustmrsRefresh = "//div[@class='title ellipsis' and text() = 'All Customers']";
+	
+	final String objC_ActionsBtn = "//div[@class='customerNamePlaceHolder']/following-sibling::div/descendant::div[text()='ACTIONS']";
 	final String objC_DeleteBtn = "//div[@class='edit_customer_sliding_panel sliding_panel']//div[@class='deleteButton']";
 	final String objC_PermntDltBtn = "//span[@id='customerPanel_deleteConfirm_submitTitle']";
 	
 	final String objOptionalExpandBtn = "//div[@class='collapseAllButton']/ancestor::div[@class='customersProjectsTree']";
 	final String objP_ExpandBtn = "//div[@class='collapseAllButton']";
-	final String objP_ActionsBtn = "//div[@class='projectNamePlaceholder']/following-sibling::div[@class='actions']";
+	final String objP_ActionsBtn = "//div[@class='projectNamePlaceholder']/following-sibling::div/descendant::div[@class='actionButton']";
 	final String objP_DeleteBtn = "//div[@class='edit_project_sliding_panel sliding_panel']//div[@class='deleteButton']";
 	final String objP_PermntDltBtn = "//span[@id='projectPanel_deleteConfirm_submitTitle']";
 	
 	final String objP_MoveBtn ="//div[@class='edit_project_sliding_panel sliding_panel']/div[@class='dropdownContainer actionsMenu']/div/div[@class='moveButton']";
 	final String objP_MoveToTitle = "//div[text()='Move project to another customer:']";
 	final String objP_MoveToDropDown = "//div[@class='simpleListMenuButton emptyList emptySelection notEmpty']";
+	final String objP_MoveToList = "//div[@style='width: 338px; display: block; top: 379.8px; left: 545.338px;']";
 	final String objP_finalMoveBtn = "//div[@class='moveToDialog moveEnabled']/div[@class='buttonsContainer']/div[@class='move button']";
 	
 }

@@ -27,16 +27,11 @@ public class TaskModuleScripts extends DriverScript {
 			oBrowser = appInd.launchBrowser(objData.get("BrowserName"),test);
 			strStatus+= appDep.navigateURL(oBrowser, objData.get("URL"),test);
 			strStatus+= appDep.loginToApp(oBrowser, objData.get("UN"), objData.get("PWD"),test);
-			Thread.sleep(2000);
 			strStatus+= taskMethods.Open_Task_Menu(oBrowser,test);
 			customerName= taskMethods.Create_Customer(oBrowser, objData, test);
-			Thread.sleep(5000);
 			strStatus+= taskMethods.Create_Project(oBrowser, objData, null, customerName, test);
-			Thread.sleep(3000);
 			strStatus+= taskMethods.Delete_Customer(oBrowser, null, customerName, test);  //Calling-1
-			Thread.sleep(2000);
 			strStatus+= taskMethods.Delete_Customer(oBrowser, objData, "", test);  //Calling-2
-			Thread.sleep(5000);
 			strStatus+= appDep.logoutFromApp(oBrowser,test);
 			strStatus+= appInd.closeBrowser(oBrowser,test);
 			
@@ -79,13 +74,9 @@ public class TaskModuleScripts extends DriverScript {
 			strStatus+= appDep.navigateURL(oBrowser, objData.get("URL"),test);
 			strStatus+= appDep.loginToApp(oBrowser, objData.get("UN"), objData.get("PWD"),test);
 			strStatus+= taskMethods.Open_Task_Menu(oBrowser,test);
-			Thread.sleep(10000);
 			projectName= taskMethods.Create_Project(oBrowser, objData, objData, "", test);
-			Thread.sleep(5000);
 			strStatus+= taskMethods.Delete_Project(oBrowser, null, projectName, test); //Calling1
-			Thread.sleep(2000);
 			strStatus+= taskMethods.Delete_Project(oBrowser, objData, "", test); //Calling2
-			Thread.sleep(2000);
 			strStatus+= appDep.logoutFromApp(oBrowser,test);
 			strStatus+= appInd.closeBrowser(oBrowser,test);
 			
@@ -127,9 +118,7 @@ public class TaskModuleScripts extends DriverScript {
 			strStatus+= appDep.navigateURL(oBrowser, objData.get("URL"),test);
 			strStatus+= appDep.loginToApp(oBrowser, objData.get("UN"), objData.get("PWD"),test);
 			strStatus+= taskMethods.Open_Task_Menu(oBrowser,test);
-			Thread.sleep(5000);
 			strStatus+= taskMethods.moveProject(oBrowser, objData, test);
-			Thread.sleep(5000);
 			strStatus+= appDep.logoutFromApp(oBrowser,test);
 			strStatus+= appInd.closeBrowser(oBrowser,test);
 			

@@ -6,12 +6,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.relevantcodes.extentreports.ExtentTest;
 import driver.DriverScript;
@@ -130,6 +133,68 @@ public class AppIndependentMethods extends DriverScript {
 		}
 	}
 	
+	/***********************************************
+	 * Method Name		: jsClickObject()
+	 *
+	 ************************************************/
+	public boolean jsClickObject(WebDriver oDriver, By objBy, ExtentTest test)
+	{
+		List<WebElement> objEle = null;
+		JavascriptExecutor js = null;
+		try {
+			js = (JavascriptExecutor) oDriver;
+			objEle = oDriver.findElements(objBy);
+			if(objEle.size() > 0) {
+				reports.writeResult(oDriver, "Pass", "The element '"+String.valueOf(objBy)+"' was clicked successful", test);
+				js.executeScript("arguments[0].click();", objEle.get(0));
+				//objEle.get(0).click();
+				return true;
+			}else {
+				reports.writeResult(oDriver, "Fail", "Failed to find the element '"+String.valueOf(objBy)+"'", test);
+				return false;
+			}
+		}catch(Exception e)
+		{
+			reports.writeResult(oDriver, "Exception", "Exception in jsClickObject() method. "+ e, test);
+			return false;
+		}
+		finally {
+			objEle = null;
+		}
+	}
+	
+	
+	
+	
+	/***********************************************
+	 * Method Name		: jsClickObject()
+	 *
+	 ************************************************/
+	public boolean jsClickObject(WebDriver oDriver, String strObjectName, ExtentTest test)
+	{
+		List<WebElement> objEle = null;
+		JavascriptExecutor js = null;
+		try {
+			js = (JavascriptExecutor) oDriver;
+			objEle = oDriver.findElements(By.xpath(strObjectName));
+			if(objEle.size() > 0) {
+				reports.writeResult(oDriver, "Pass", "The element '"+strObjectName+"' was clicked successful", test);
+				js.executeScript("arguments[0].click();", objEle.get(0));
+				//objEle.get(0).click();
+				return true;
+			}else {
+				reports.writeResult(oDriver, "Fail", "Failed to find the element '"+strObjectName+"'", test);
+				return false;
+			}
+		}catch(Exception e)
+		{
+			reports.writeResult(oDriver, "Exception", "Exception in jsClickObject() method. "+ e, test);
+			return false;
+		}
+		finally {
+			objEle = null;
+		}
+	}
 	/***********************************************
 	 * Method Name		: clickObjectInTable()
 	 *
@@ -636,4 +701,109 @@ public class AppIndependentMethods extends DriverScript {
 		}
 	}
 
+	
+	/**************************************************************
+	 * Method Name				: waitForElement()
+	 * Using					: strObjectName
+	 * 
+	 **************************************************************/
+	
+	public boolean waitForElement(WebDriver oDriver, String strObjectName, String reasonForWait, String strExptdValue, int timeOut) {
+		WebDriverWait wait = null;
+		
+		try
+		{
+			wait = new WebDriverWait(oDriver, timeOut);
+			
+			switch(reasonForWait.toLowerCase()) {
+			case "clickable":
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath(strObjectName)));
+				break;
+			case "visible":
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(strObjectName)));
+				break;
+			case "invisible":
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(strObjectName)));
+				break;
+			case "invisibletext":
+				wait.until(ExpectedConditions.invisibilityOfElementWithText(By.xpath(strObjectName), strExptdValue));
+				break;
+			case "text":
+				wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath(strObjectName), strExptdValue));
+				break;
+			case "value":
+				wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath(strObjectName), strExptdValue));
+				break;
+			case "alert":
+				wait.until(ExpectedConditions.alertIsPresent());
+				break;
+			case "title":
+				wait.until(ExpectedConditions.titleIs(strExptdValue));
+				break;
+			default:
+				System.out.println("Invalid wait condition '"+reasonForWait+"' was provided");
+	
+			}
+			return true;
+		}catch(Exception e)
+		{
+			System.out.println("Exception in waitForElement() : "+e);
+			return false;
+		}finally {
+			wait = null;
+		}
+		
+	}
+	
+	/**************************************************************
+	 * Method Name				: waitForElement()
+	 * Using					: By objBy
+	 **************************************************************/
+	
+	public boolean waitForElement(WebDriver oDriver, By objBy, String reasonForWait, String strExptdValue, int timeOut) {
+		WebDriverWait wait = null;
+		
+		try
+		{
+			wait = new WebDriverWait(oDriver, timeOut);
+			
+			switch(reasonForWait.toLowerCase()) {
+			case "clickable":
+				wait.until(ExpectedConditions.elementToBeClickable(objBy));
+				break;
+			case "visible":
+				wait.until(ExpectedConditions.visibilityOfElementLocated(objBy));
+				break;
+			case "invisible":
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(objBy));
+				break;
+			case "invisibletext":
+				wait.until(ExpectedConditions.invisibilityOfElementWithText(objBy, strExptdValue));
+				break;
+			case "text":
+				wait.until(ExpectedConditions.textToBePresentInElementLocated(objBy, strExptdValue));
+				break;
+			case "value":
+				wait.until(ExpectedConditions.textToBePresentInElementValue(objBy, strExptdValue));
+				break;
+			case "alert":
+				wait.until(ExpectedConditions.alertIsPresent());
+				break;
+			case "title":
+				wait.until(ExpectedConditions.titleIs(strExptdValue));
+				break;
+			default:
+				System.out.println("Invalid wait condition '"+reasonForWait+"' was provided");
+	
+			}
+			return true;
+		}catch(Exception e)
+		{
+			System.out.println("Exception in waitForElement() : "+e);
+			return false;
+		}finally {
+			wait = null;
+		}
+		
+	}
 }
